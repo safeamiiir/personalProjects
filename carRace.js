@@ -127,6 +127,8 @@ function main() {
     }
     for(var i = 0; i < winnerCars.length; i++){winnerCars[i] += 1;}
     alert(' WINNERS: ' + winnerCars );
+    console.log(' WINNERS: ' + winnerCars );
+
 // *************************************************************
 //                     Shows The Winners                               
 // *************************************************************
