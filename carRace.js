@@ -4,9 +4,10 @@
 var carNumbers = 0;
 var userInp = 0;
 var carLefted = 0;
-var allCurrentPosition = [];
+var newPosition = 0;
+var allCurrentPosition = [100];
+var allcurrentID = [100];
 var cars = [];
-var carsCurrentPositions = [];
 var cylandrNumberRndm = [];
 var winnerCars = [];
 var roadSimulator = [100];
@@ -16,12 +17,12 @@ var roadSimulator = [100];
 function roadUpdater(current,carId){
     // console.clear();
     for(var j = 0; j < 100; j++){
-        if(j === current){
-            roadSimulator[current] = '#__' + carId + '__#';
-        }   
-        else    
-            roadSimulator[j] = '*';  
-  
+        if( current.includes(j) ){
+            roadSimulator[j] =  '#____' + carId[j] + '___#' ;
+        }
+        else{
+            roadSimulator[j] = '*';
+        }
     } 
     return roadSimulator;
 }
@@ -80,26 +81,27 @@ function move(i) {
         while( inp > 10 || inp < 0)
             inp =+ prompt("Enter[" + (j+1) + "]move of " + "car[" + (i+1) + "] agin !! ( in range (1-10) ): ", ""); //User INPUT
         userInp = inp  
-
+        newPosition = Math.abs( userInp - dice() ) * cars[i].cylandrNumber;
         //conflict Handler START!!!
         for(var k = 0; k < carNumbers; k++){
-            if(k !== i && cars[i].currentPosition === cars[k].currentPosition){
+            if( newPosition === cars[k].currentPosition ){
                 cars[k].currentPosition = 0;
             }
         }//conflict Handler END!!!
 
-        cars[i].currentPosition += Math.abs( userInp - dice() ) * cars[i].cylandrNumber;
-        console.log( roadUpdater( cars[i].currentPosition , i+1 ) );
-        carsCurrentPositions[i] = cars[i].currentPosition;
+        cars[i].currentPosition += newPosition;
+        allCurrentPosition[i] = cars[i].currentPosition;
+        allcurrentID[cars[i].currentPosition] = i+1;
+        console.log( ("car[" + (i+1) + "]'s Position is : " + allCurrentPosition[i]) );
         if(cars[i].currentPosition >= 100){
-            roadSimulator[i] = '*';  
             console.log("car[" + (i+1) + "]Has Won The Race !!!!!! ");
             carLefted -= 1;
             winnerCars.push(i);
+            allCurrentPosition[i] = -1;
+            // console.log( roadUpdater( allCurrentPosition , allcurrentID )  );
             break;
-            roadSimulator[i] = '*';
         }
-        allCurrentPosition[i] = cars[i].currentPosition;
+        console.log( roadUpdater( allCurrentPosition , allcurrentID )  );
     }
 }
 // *************************************************************
@@ -114,7 +116,8 @@ function main() {
         for(var i = 0; i < carNumbers; i++){//Move 4 Cars
             if( !winnerCars.includes(i) ){
                 move(i);
-                console.log("car ["+ (i+1) +"]'s Position Is : " +cars[i].currentPosition);
+                // console.log("car ["+ (i+1) +"]'s Position Is : " +cars[i].currentPosition);
+                // console.log(allCurrentPosition);
             }
         }
 // *************************************************************
@@ -123,7 +126,7 @@ function main() {
         console.log("Car Lefted : " + carLefted);
     }
     for(var i = 0; i < winnerCars.length; i++){winnerCars[i] += 1;}
-    console.log(' WINNERS: ' + winnerCars );
+    alert(' WINNERS: ' + winnerCars );
 // *************************************************************
 //                     Shows The Winners                               
 // *************************************************************
