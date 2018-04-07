@@ -1,0 +1,19 @@
+
+td {
+    border: 2px solid darkgray;
+    padding: 10px;
+    color: white;
+    background-color: deepskyblue;
+    min-height: 15px;
+    min-width: 15px;
+}
+tr{
+
+}
+table{
+    padding: 20px 250px;
+}
+
+/*td:hover{*/
+    /*background-color: darkblue;*/
+/*}*/
